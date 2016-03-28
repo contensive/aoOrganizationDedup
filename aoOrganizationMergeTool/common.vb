@@ -1,13 +1,8 @@
 ﻿Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.aoOrganizationDedup
-
-
-    ' This class holds the current application, so the Db only has to be read once and saved once
-    ' for some requrements this can be larger and describe an entire environment, to include values from many records.
-    ' for some projects, you may decide that every page does not need all the values stored in this class. In that case you can create
-    ' methods in the class that load on demand. For instance, in the constructor just pass cp and exit. When firstname is used, check if the 
-    ' application id is 0. If so, read all the values from the application record into the object before returning firstName.
+Namespace Contensive.Addons.aoOrganizationMergeTool
+    '
+    '
     '
     Public Class applicationClass
         Public completed As Boolean

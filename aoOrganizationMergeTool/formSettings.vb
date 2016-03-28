@@ -2,7 +2,7 @@
 
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.aoOrganizationDedup
+Namespace Contensive.Addons.aoOrganizationMergeTool
     '
     Public Class settingFormClass
         Inherits formBaseClass
@@ -46,9 +46,9 @@ Namespace Contensive.Addons.aoOrganizationDedup
                     Call cs.Close()
                     ' save values
                     If fieldsSelected.Count > 0 Then
-                        cp.Site.SetProperty("Organization Dedup Fields Selected", serializeFieldsSelected(cp, fieldsSelected))
+                        cp.Site.SetProperty("Organization Merge Tool  Fields Selected", serializeFieldsSelected(cp, fieldsSelected))
                     Else
-                        cp.Site.SetProperty("Organization Dedup Fields Selected", "")
+                        cp.Site.SetProperty("Organization Merge Tool  Fields Selected", "")
                     End If
                 End If
 
@@ -91,13 +91,13 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim actionID As Integer = 0
                 Dim fieldsSelected As New List(Of settingClass)
                 '
-                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Dedup Fields Selected")) Then
-                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Dedup Fields Selected"))
+                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Merge Tool  Fields Selected")) Then
+                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Merge Tool  Fields Selected"))
                     existSeletedIds = True
                 End If
                 '
-                htmlHeader = "<div class""bold""><h1>Dedup Organization Settings</h1></div>" _
-                    & "<div><p>Select Organization fields to be part of the dedup Process.</p></div>" _
+                htmlHeader = "<div class""bold""><h1>Organization Merge Tool Settings</h1></div>" _
+                    & "<div><p>Select Organization fields to be part of the merge process.</p></div>" _
                     & "<br/>"
                 '
                 If cs.Open("Content Fields", "ContentID=" & cp.Content.GetRecordID("Content", "Organizations") & " and Authorable=1 ") Then
@@ -115,9 +115,15 @@ Namespace Contensive.Addons.aoOrganizationDedup
                                 End If
                             Next
 
-                            htmlRow &= getBodyRow_4Column(num.ToString, cp.Html.CheckBox("check-" & cs.GetInteger("id"), idSelected, , "js-check-" & cs.GetInteger("id")), cs.GetText("caption"), cp.Html.SelectList("select-" & cs.GetInteger("id"), actionID.ToString, "Replace, Replace if value is empty", "Do Nothing", "", ""))
+                            htmlRow &= getBodyRow_4Column(num.ToString,
+                                                          cp.Html.CheckBox("check-" & cs.GetInteger("id"), idSelected, , "js-check-" & cs.GetInteger("id")),
+                                                          cs.GetText("caption"),
+                                                          cp.Html.SelectList("select-" & cs.GetInteger("id"), actionID.ToString, "Use merged co. value, Use merged co. value if empty", "Keep current value", "", ""))
                         Else
-                            htmlRow &= getBodyRow_4Column(num.ToString, cp.Html.CheckBox("check-" & cs.GetInteger("id"), False, , "js-check-" & cs.GetInteger("id")), cs.GetText("caption"), cp.Html.SelectList("select_" & cs.GetInteger("id"), "", "Replace, Replace if value is empty", "Do Nothing", "", ""))
+                            htmlRow &= getBodyRow_4Column(num.ToString,
+                                                          cp.Html.CheckBox("check-" & cs.GetInteger("id"), False, , "js-check-" & cs.GetInteger("id")),
+                                                          cs.GetText("caption"),
+                                                          cp.Html.SelectList("select_" & cs.GetInteger("id"), "", "Use merged co. value, Use merged co. value if empty", "Keep current value", "", ""))
                         End If
                         '
                         Call cs.GoNext()
@@ -130,7 +136,6 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 htmlFooter = "<div>" _
                     & cp.Html.Button("Save", "Save", "button", "js-saveSetting") _
                     & "</div>"
-                '& cp.Html.Button("Back", "Back", "button", "js-backSetting") _
 
                 '
                 body = htmlHeader & htmlTable & htmlFooter

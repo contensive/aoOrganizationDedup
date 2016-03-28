@@ -3,7 +3,7 @@ Option Strict On
 
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.aoOrganizationDedup
+Namespace Contensive.Addons.aoOrganizationMergeTool
     '
     Public Class form2Class
         Inherits formBaseClass
@@ -18,8 +18,8 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim csDuplicate As CPCSBaseClass = cp.CSNew
                 Dim isInputOK As Boolean = True
                 '
-                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Dedup Main Organization ID")
-                Dim duplicateOrgID As Integer = cp.Visit.GetInteger("Organization Dedup Duplicate Organization ID")
+                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Merge Main Organization ID")
+                Dim duplicateOrgID As Integer = cp.Visit.GetInteger("Organization Merge Duplicate Organization ID")
                 '
                 Dim existSeletedIds As Boolean = False
                 Dim fieldId As Integer = 0
@@ -27,8 +27,8 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim actionid As Integer = 0
                 Dim sqlStr As String = ""
                 '
-                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Dedup Fields Selected")) Then
-                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Dedup Fields Selected"))
+                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Merge Tool  Fields Selected")) Then
+                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Merge Tool  Fields Selected"))
                     existSeletedIds = True
                 End If
 
@@ -160,8 +160,8 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim htmlFooter As String = ""
                 Dim htmlExtra As String = ""
                 '
-                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Dedup Main Organization ID")
-                Dim duplicateOrgID As Integer = cp.Visit.GetInteger("Organization Dedup Duplicate Organization ID")
+                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Merge Main Organization ID")
+                Dim duplicateOrgID As Integer = cp.Visit.GetInteger("Organization Merge Duplicate Organization ID")
                 '
                 Dim mainValue As String = ""
                 Dim duplicateValue As String = ""
@@ -175,12 +175,12 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 '
                 Dim sqlStr As String = ""
                 '
-                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Dedup Fields Selected")) Then
-                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Dedup Fields Selected"))
+                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Merge Tool  Fields Selected")) Then
+                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Merge Tool  Fields Selected"))
                     existSeletedIds = True
                 End If
                 '
-                htmlHeader = "<div class""bold""><h1>Dedup Organization Process</h1></div>" _
+                htmlHeader = "<div class""bold""><h1>Organization Merge Tool</h1></div>" _
                     & "<div><p>Select Action to apply to the fields.</p></div>" _
                     & "<br/>"
                 '
@@ -228,20 +228,17 @@ Namespace Contensive.Addons.aoOrganizationDedup
                         resultValue = mainValue
                     End If
                     '
-                    htmlTableRow &= getBodyRow_5Column(onesetting.caption, "<input type=""text"" id=""js-dup-" & onesetting.id.ToString & """ value=""" & duplicateValue & """ readonly>", cp.Html.SelectList("select-" & onesetting.id.ToString, onesetting.actionId.ToString, "Replace, Replace if value is empty", "Do Nothing", "actionSelectClass", "js-action-" & onesetting.id.ToString), "<input type=""text"" id=""js-main-" & onesetting.id.ToString & """ value=""" & mainValue & """ readonly>", "<input id=""js-text-" & onesetting.id.ToString & """ type=""=""text"" value=""" & resultValue & """ readonly>")
+                    htmlTableRow &= getBodyRow_5Column(onesetting.caption, "<input type=""text"" id=""js-dup-" & onesetting.id.ToString & """ value=""" & duplicateValue & """ readonly>", cp.Html.SelectList("select-" & onesetting.id.ToString, onesetting.actionId.ToString, "Use merged co. value, Use merged co. value if empty", "Keep current value", "actionSelectClass", "js-action-" & onesetting.id.ToString), "<input type=""text"" id=""js-main-" & onesetting.id.ToString & """ value=""" & mainValue & """ readonly>", "<input id=""js-text-" & onesetting.id.ToString & """ type=""=""text"" value=""" & resultValue & """ readonly>")
                 Next
-                htmlTableHeader = getHeaderRow_5Column("Column Name", "Duplicate Org. (To Delete) Value", "Action", "Main Org. (To Merge) Value", "Result Value")
+                htmlTableHeader = getHeaderRow_5Column("Column Name", "Organization to Merge", "Action", "Organization to keep", "Value Result")
                 '
                 htmlTable = wrapInDivTable(htmlTableHeader, htmlTableRow)
                 '
 
-                htmlExtra = "<p> <span>" & cp.Html.CheckBox("inactive", True, "") & "</span> Inactive duplicate Organization after process.</p> <br/>" _
-                        & "<p> Total of users under  <span class=""orgName"">" & mainName & "</span>: " & mainTotal & " <p>" _
-                        & "<p> Total of users under  <span class=""orgName"">" & duplicateName & "</span>: " & duplicateTotal & " <p>" _
-                        & "<p> <span>" & cp.Html.CheckBox("move", True, "") & "</span> Move users from Duplicate to main Organization.</p> <br/>"
-
-
-
+                htmlExtra = "<p> <span>" & cp.Html.CheckBox("inactive", True, "") & "</span> Deactivate duplicate organization after process.</p> <br/>" _
+                        & "<p> Total of users in  <span class=""orgName"">" & mainName & "</span>: " & mainTotal & " <p>" _
+                        & "<p> Total of users in  <span class=""orgName"">" & duplicateName & "</span>: " & duplicateTotal & " <p>" _
+                        & "<p> <span>" & cp.Html.CheckBox("move", True, "") & "</span> Move users from merged organization to main Organization.</p> <br/>"
 
                 htmlFooter = "<div>" _
                         & cp.Html.Button("Back", "Back", "button", "js-backForm2") _

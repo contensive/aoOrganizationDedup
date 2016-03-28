@@ -1,9 +1,6 @@
-﻿'Public Class OrganizationDedupSettingsHandler
+﻿Imports Contensive.BaseClasses
 
-
-Imports Contensive.BaseClasses
-
-Namespace Contensive.Addons.aoOrganizationDedup
+Namespace Contensive.Addons.aoOrganizationMergeTool
     '
     Public Class formHandlerClass
         Inherits AddonBaseClass
@@ -15,11 +12,7 @@ Namespace Contensive.Addons.aoOrganizationDedup
             Dim returnHtml As String = ""
             Try
                 '
-                ' all form classes inherit from formBase, so this one form object can be used for every form type required
-                ' refresh query string is everying needed on the query string to refresh this page. Used for links, etc to always submit to the same page.
-                ' rightNow is convenient when you need to test time dependant options, you can force the rightNow with a site property, etc
-                ' srcFormId is the form number that submitted the request (if it was a form submission) and should be a hidden on all forms
-                ' dstFormId is a way to force a form to display without a form submission
+                '
                 '
                 Dim body As String = ""
                 Dim form As formBaseClass
@@ -34,26 +27,11 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim formHandler As formHandlerClass = New formHandlerClass
                 Dim application As New applicationClass
                 '
-                ' get previously started application
-                '
-                'application = getApplication(CP, False)
-                '
-                ' if there is no application, only allow form one
-                '
-                'If application.id = 0 Then
-                'If srcFormId <> formIdOne Then
-                '    srcFormId = formSettings
-                'End If
-                '    dstFormId = formIdOne
-                'End If
-
-                If Not String.IsNullOrEmpty(CP.Site.GetProperty("Organization Dedup Fields Selected")) Then
+                If Not String.IsNullOrEmpty(CP.Site.GetProperty("Organization Merge Tool  Fields Selected")) Then
                     dstFormId = formIdOne
                 Else
                     dstFormId = formSettings
                 End If
-
-
                 '
                 ' process forms
                 '

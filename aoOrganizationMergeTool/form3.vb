@@ -3,7 +3,7 @@ Option Strict On
 
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.aoOrganizationDedup
+Namespace Contensive.Addons.aoOrganizationMergeTool
     '
     Public Class form3Class
         Inherits formBaseClass
@@ -26,8 +26,8 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 If button = buttonOK Then
                     ' Reset main and duplicate org Id
                     '
-                    cp.Visit.SetProperty("Organization Dedup Main Organization ID", "")
-                    cp.Visit.SetProperty("Organization Dedup Duplicate Organization ID", "")
+                    cp.Visit.SetProperty("Organization Merge Main Organization ID", "")
+                    cp.Visit.SetProperty("Organization Merge Duplicate Organization ID", "")
                     '
                 End If
 
@@ -62,7 +62,7 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim htmlFooter As String = ""
                 Dim htmlExtra As String = ""
                 '
-                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Dedup Main Organization ID")
+                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Merge Main Organization ID")
                 '
                 Dim mainValue As String = ""
                 '
@@ -72,8 +72,8 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 '
                 Dim sqlStr As String = ""
                 '
-                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Dedup Fields Selected")) Then
-                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Dedup Fields Selected"))
+                If Not String.IsNullOrEmpty(cp.Site.GetProperty("Organization Merge Tool  Fields Selected")) Then
+                    fieldsSelected = deserializeFieldsSelected(cp, cp.Site.GetProperty("Organization Merge Tool  Fields Selected"))
                     existSeletedIds = True
                 End If
                 '
@@ -102,14 +102,11 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 htmlTable = wrapInDivTable(htmlTableHeader, htmlTableRow)
                 '
                 '
-                htmlHeader = "<div class""bold""><h1>Dedup Organization Process Result</h1></div>" _
+                htmlHeader = "<div class""bold""><h1>Organization Merge Tool Result</h1></div>" _
                     & "<br/>" _
-                    & "<p> Actual field values for  <span class=""bold"">" & mainName & "</span>.<p>"
+                    & "<p> Actual field values for <span class=""bold"">" & mainName & "</span>.<p>"
                 '
-                htmlExtra = "<p> Total of users under  <span class=""orgName"">" & mainName & "</span>: " & mainTotal & " <p>"
-
-
-
+                htmlExtra = "<p> Total of users in <span class=""orgName"">" & mainName & "</span>: " & mainTotal & " <p>"
 
                 htmlFooter = "<div>" _
                         & cp.Html.Button("OK", "OK", "button", "js-okForm3") _

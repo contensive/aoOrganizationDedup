@@ -3,7 +3,7 @@ Option Strict On
 
 Imports Contensive.BaseClasses
 
-Namespace Contensive.Addons.aoOrganizationDedup
+Namespace Contensive.Addons.aoOrganizationMergeTool
     '
     Public Class form1Class
         Inherits formBaseClass
@@ -27,8 +27,8 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 End If
                 '
                 If (mainOrgId <> duplicateOrgID) And (mainOrgId <> 0) And (duplicateOrgID <> 0) Then
-                    cp.Visit.SetProperty("Organization Dedup Main Organization ID", mainOrgId.ToString)
-                    cp.Visit.SetProperty("Organization Dedup Duplicate Organization ID", duplicateOrgID.ToString)
+                    cp.Visit.SetProperty("Organization Merge Main Organization ID", mainOrgId.ToString)
+                    cp.Visit.SetProperty("Organization Merge Duplicate Organization ID", duplicateOrgID.ToString)
                     isInputOK = True
                 End If
                 '
@@ -67,10 +67,10 @@ Namespace Contensive.Addons.aoOrganizationDedup
                 Dim htmlTable As String = ""
                 Dim htmlHeader As String = ""
                 Dim htmlFooter As String = ""
-                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Dedup Main Organization ID")
-                Dim duplicateOrgID As Integer = cp.Visit.GetInteger("Organization Dedup Duplicate Organization ID")
+                Dim mainOrgId As Integer = cp.Visit.GetInteger("Organization Merge Main Organization ID")
+                Dim duplicateOrgID As Integer = cp.Visit.GetInteger("Organization Merge Duplicate Organization ID")
 
-                htmlHeader = "<div class""bold""><h1>Dedup Organization Process</h1></div>" _
+                htmlHeader = "<div class""bold""><h1>Organization Merge Tool</h1></div>" _
                             & "<div><p>Select Main Organization and duplicate organization.</p></div>" _
                             & "<br/>"
                 '
