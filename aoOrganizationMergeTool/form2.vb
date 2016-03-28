@@ -230,7 +230,7 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
                     '
                     htmlTableRow &= getBodyRow_5Column(onesetting.caption, "<input type=""text"" id=""js-dup-" & onesetting.id.ToString & """ value=""" & duplicateValue & """ readonly>", cp.Html.SelectList("select-" & onesetting.id.ToString, onesetting.actionId.ToString, "Use merged co. value, Use merged co. value if empty", "Keep current value", "actionSelectClass", "js-action-" & onesetting.id.ToString), "<input type=""text"" id=""js-main-" & onesetting.id.ToString & """ value=""" & mainValue & """ readonly>", "<input id=""js-text-" & onesetting.id.ToString & """ type=""=""text"" value=""" & resultValue & """ readonly>")
                 Next
-                htmlTableHeader = getHeaderRow_5Column("Column Name", "Organization to Merge", "Action", "Organization to keep", "Value Result")
+                htmlTableHeader = getHeaderRow_5Column("Column Name", "Organization to Merge", "Action for Field Value", "Organization to Keep", "New Field Value")
                 '
                 htmlTable = wrapInDivTable(htmlTableHeader, htmlTableRow)
                 '
@@ -238,7 +238,7 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
                 htmlExtra = "<p> <span>" & cp.Html.CheckBox("inactive", True, "") & "</span> Deactivate duplicate organization after process.</p> <br/>" _
                         & "<p> Total of users in  <span class=""orgName"">" & mainName & "</span>: " & mainTotal & " <p>" _
                         & "<p> Total of users in  <span class=""orgName"">" & duplicateName & "</span>: " & duplicateTotal & " <p>" _
-                        & "<p> <span>" & cp.Html.CheckBox("move", True, "") & "</span> Move users from merged organization to main Organization.</p> <br/>"
+                        & "<p> <span>" & cp.Html.CheckBox("move", True, "") & "</span> Move users from merged organization to main organization.</p> <br/>"
 
                 htmlFooter = "<div>" _
                         & cp.Html.Button("Back", "Back", "button", "js-backForm2") _
