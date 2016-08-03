@@ -169,7 +169,7 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
         '
         '
         '
-        Public Function serializeFieldsSelected(ByVal CP As CPBaseClass, ByVal package As List(Of settingClass)) As String
+        Private Function serializeFieldsSelected(ByVal CP As CPBaseClass, ByVal package As List(Of settingClass)) As String
             Dim s As String = ""
             '
             Try

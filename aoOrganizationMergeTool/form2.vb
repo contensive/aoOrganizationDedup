@@ -106,6 +106,19 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
                         Call csDuplicate.Close()
                     End If
                     '
+                    ' delete Duplicate Organization
+                    '
+                    cp.Utils.AppendLog("form2Class.log", "before delete org")
+                    If cp.Doc.GetBoolean("delete") Then
+                        cp.Utils.AppendLog("form2Class.log", "delete orgid: " & duplicateOrgID)
+                        'If csDuplicate.Open("Organizations", "id =" & duplicateOrgID) Then
+                        '    Call csDuplicate.Delete()
+                        'End If
+                        'Call csDuplicate.Close()
+                        cp.Content.Delete("Organizations", "id=" & duplicateOrgID)
+                    End If
+                    cp.Utils.AppendLog("form2Class.log", "after delete org")
+                    '
                     ' Move Duplicate organization users to main Organization
                     '
                     If cp.Doc.GetBoolean("move") Then
@@ -236,6 +249,7 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
                 '
 
                 htmlExtra = "<p> <span>" & cp.Html.CheckBox("inactive", True, "") & "</span> Deactivate duplicate organization after process.</p> <br/>" _
+                        & "<p> <span>" & cp.Html.CheckBox("delete", False, "") & "</span> Delete duplicate organization after process.</p> <br/>" _
                         & "<p> Total of users in  <span class=""orgName"">" & mainName & "</span>: " & mainTotal & " <p>" _
                         & "<p> Total of users in  <span class=""orgName"">" & duplicateName & "</span>: " & duplicateTotal & " <p>" _
                         & "<p> <span>" & cp.Html.CheckBox("move", True, "") & "</span> Move users from merged organization to main organization.</p> <br/>"

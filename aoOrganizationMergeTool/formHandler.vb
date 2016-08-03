@@ -27,10 +27,41 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
                 Dim formHandler As formHandlerClass = New formHandlerClass
                 Dim application As New applicationClass
                 '
+                Dim cs As CPCSBaseClass = CP.CSNew
+                '
                 If Not String.IsNullOrEmpty(CP.Site.GetProperty("Organization Merge Tool  Fields Selected")) Then
                     dstFormId = formIdOne
                 Else
-                    dstFormId = formSettings
+
+                    ' dstFormId = formSettings
+                    ' Change we need to remove setting page, snow we need show thr full list of fields
+
+                    ' build the list and go to form one
+                    '
+                    Dim fieldsSelected As New List(Of settingClass)
+                    Dim fieldSelected As settingClass
+                    If cs.Open("Content Fields", "ContentID=" & CP.Content.GetRecordID("Content", "Organizations") & " and Authorable=1 ") Then
+                        Do
+                            '
+                            fieldSelected = New settingClass
+                            fieldSelected.id = cs.GetInteger("id")
+                            fieldSelected.name = cs.GetText("name")
+                            fieldSelected.caption = cs.GetText("caption")
+                            fieldSelected.actionId = CP.Doc.GetInteger("select-" & cs.GetInteger("id"))
+                            fieldsSelected.Add(fieldSelected)
+                            Call cs.GoNext()
+                        Loop While cs.OK
+                    End If
+                    Call cs.Close()
+                    ' save values
+                    If fieldsSelected.Count > 0 Then
+                        CP.Site.SetProperty("Organization Merge Tool  Fields Selected", serializeFieldsSelected(CP, fieldsSelected))
+                    Else
+                        CP.Site.SetProperty("Organization Merge Tool  Fields Selected", "")
+                    End If
+
+                    ' after create the fields go to form 1
+                    dstFormId = formIdOne
                 End If
                 '
                 ' process forms
@@ -98,5 +129,25 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
             End Try
             Return returnHtml
         End Function
+        '
+        '
+        '
+        Private Function serializeFieldsSelected(ByVal CP As CPBaseClass, ByVal package As List(Of settingClass)) As String
+            Dim s As String = ""
+            '
+            Try
+                s = Newtonsoft.Json.JsonConvert.SerializeObject(package).Replace(vbCrLf, "")
+            Catch ex As Exception
+                Try
+                    CP.Site.ErrorReport(ex, "error in serializeFieldsSelected")
+                Catch errObj As Exception
+                End Try
+            End Try
+            '
+            Return s
+        End Function
+        '
+        '
+        '
     End Class
 End Namespace

@@ -79,8 +79,8 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
                 '
                 htmlTable = wrapInDivTable(htmlRow1, htmlRow2)
                 '
+                '& cp.Html.Button("Settings", "Settings", "button", "js-settingsForm1") _
                 htmlFooter = "<div>" _
-                        & cp.Html.Button("Settings", "Settings", "button", "js-settingsForm1") _
                         & cp.Html.Button("Next", "Next", "button", "js-nextForm1") _
                         & "</div>"
                 '
