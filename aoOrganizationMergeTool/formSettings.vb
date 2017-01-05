@@ -151,6 +151,7 @@ Namespace Contensive.Addons.aoOrganizationMergeTool
         '
         Private Function deserializeFieldsSelected(ByVal CP As CPBaseClass, ByVal value As String) As List(Of settingClass)
             Dim o As New List(Of settingClass)
+            Dim jsonSerializer As New System.Web.Script.Serialization.JavaScriptSerializer
             '
             Try
                 '
